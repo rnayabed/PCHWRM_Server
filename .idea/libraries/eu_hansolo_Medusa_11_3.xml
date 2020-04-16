@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="eu.hansolo:Medusa:11.3" type="repository">
+    <properties include-transitive-deps="false" maven-id="eu.hansolo:Medusa:11.2" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/eu/hansolo/Medusa/11.2/Medusa-11.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,34 @@
+Label {
+    -fx-font-family:"Roboto";
+    -fx-font-size:14;
+    -fx-text-fill:White;
+}
+
+.pane {
+    -fx-background-color:black;
+}
+
+.h1 {
+    -fx-font-size:24;
+}
+
+.h2 {
+    -fx-font-size:21;
+}
+
+
+.h3 {
+    -fx-font-size:18;
+}
+
+.h4 {
+    -fx-font-size:15;
+}
+
+.h5 {
+    -fx-font-size:14;
+}
+
+.h6 {
+    -fx-font-size:13;
+}

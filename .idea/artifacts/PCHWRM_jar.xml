@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PCHWRM:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PCHWRM_jar</output-path>
+    <root id="archive" name="PCHWRM.jar">
+      <element id="module-output" name="PCHWRM" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/eu/hansolo/Medusa/11.2/Medusa-11.2.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
