@@ -5,6 +5,8 @@ PC Hardware Resource Monitor For [Raspberry Pi](https://www.raspberrypi.org/), B
 
 Built with JavaFX, Java
 
+**7 inch screen recommended. Minimum 5 inch required to be able to read readings properly**.
+
 ## How to Run?
 
 1. Download the latest zip from [releases](https://github.com/dubbadhar/PCHWRM_Server/releases).
