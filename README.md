@@ -5,11 +5,7 @@ PC Hardware Resource Monitor For [Raspberry Pi](https://www.raspberrypi.org/), B
 
 Built with JavaFX, Java
 
-**This program uses [Open Hardware Monitor](https://openhardwaremonitor.org/) to access PC Data. Please make sure its running before you begin using it.**
-
 ## How to Run?
-
-**MAKE SURE YOU HAVE [Open Hardware Monitor](https://openhardwaremonitor.org/). Make sure you have it running while using this.**
 
 1. Download the latest zip from [releases](https://github.com/dubbadhar/PCHWRM_Server/releases).
 2. Run `unzip linux_arm7hf.zip` (Make sure you're in the same director)
