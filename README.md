@@ -10,7 +10,7 @@ Built with JavaFX, Java
 1. Download the latest zip from [releases](https://github.com/dubbadhar/PCHWRM_Server/releases).
 2. Run `unzip linux_arm7hf.zip` (Make sure you're in the same director)
 3. Then `cd PCHWRM_Server`
-4. Run `./run`, to install necessary fonts and run config.
+4. Run `./run`
 
 ## How to change Settings
 
