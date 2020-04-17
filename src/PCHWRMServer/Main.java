@@ -12,6 +12,6 @@ public class Main extends Application {
         Scene s = new Scene(m);
         primaryStage.setScene(s);
         primaryStage.show();
-        primaryStage.setOnCloseRequest(event->m.isConnected=false);
+        primaryStage.setOnCloseRequest(event-> m.isConnected=false);
     }
 }

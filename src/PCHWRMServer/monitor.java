@@ -3,7 +3,7 @@ package PCHWRMServer;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 
-import java.io.DataInputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,8 +13,6 @@ public class monitor extends monitorUI {
     io io;
 
     HashMap<String,String> config = new HashMap<>();
-
-    server server;
 
     public monitor()
     {
@@ -37,14 +35,6 @@ public class monitor extends monitorUI {
                 {
                     isConnected = false;
                     Platform.runLater(()->switchPane(pane.notConnected));
-                    try {
-                        System.out.println("D");
-                        startServer();
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.printStackTrace();
-                    }
                     e.printStackTrace();
                 }
                 return null;
@@ -55,18 +45,21 @@ public class monitor extends monitorUI {
     Socket socket;
     ServerSocket serverSocket;
 
-    DataInputStream is;
+    BufferedReader is;
 
     public void startServer() throws Exception
     {
+
         io.pln("Starting Server ...");
         if(serverSocket!=null)
         {
-            if(!serverSocket.isClosed()) serverSocket.close();
+            if(!serverSocket.isClosed())
+            {
+                serverSocket.close();
+            }
         }
 
         serverSocket = new ServerSocket(Integer.parseInt(config.get("SERVER_PORT")), 0, InetAddress.getByName(io.getShellOutput("hostname -I").replace("\n","").replace(" ","")));
-        serverSocket.setReuseAddress(true);
         io.pln("... Done!\n" +
                 "Listening for Clients on "+serverSocket.getInetAddress().getHostAddress());
 
@@ -74,7 +67,7 @@ public class monitor extends monitorUI {
         socket = serverSocket.accept();
         io.pln("... Connected!");
 
-        is = new DataInputStream(socket.getInputStream());
+        is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         isConnected = true;
         Platform.runLater(()->switchPane(pane.gauges));
@@ -87,45 +80,36 @@ public class monitor extends monitorUI {
                     while(isConnected)
                     {
                         String xx = readFromIS();
-                        if(xx ==null)
-                        {
-                            isConnected = false;
-                            server.close();
-                        }
+                        if(xx.equals("")) continue;
 
                         System.out.println("Message : "+xx);
 
-                        if(xx!=null)
-                        {
-                            String[] msg = xx.split("!!");
-                            String msgHeader = msg[0];
-                            switch (msgHeader) {
-                                case "QUIT" -> {
-                                    io.pln("Request to quit!");
-                                    isConnected = false;
-                                    socket.close();
-                                    Platform.runLater(() -> switchPane(pane.notConnected));
-                                    System.out.println("A");
-                                    startServer();
-                                }
-                                case "PC_DATA" -> dataReceived(msg[1]);
-                                case "CPU_GPU_MODELS" -> {
-                                    String[] cc = msg[1].split("::");
-                                    cpuModel = cc[0];
-                                    gpuModel = cc[1];
-                                    Platform.runLater(() -> {
-                                        CPUModelNameLabel.setText(cpuModel);
-                                        GPUModelNameLabel.setText(gpuModel);
-                                    });
-                                }
+                        String[] msg = xx.split("!!");
+                        String msgHeader = msg[0];
+                        switch (msgHeader) {
+                            case "QUIT" -> {
+                                io.pln("Request to quit!");
+                                isConnected = false;
+                                socket.close();
+                                Platform.runLater(() -> switchPane(pane.notConnected));
+                                System.out.println("A");
+                                startServer();
+                            }
+                            case "PC_DATA" -> dataReceived(msg[1]);
+                            case "CPU_GPU_MODELS" -> {
+                                String[] cc = msg[1].split("::");
+                                cpuModel = cc[0];
+                                gpuModel = cc[1];
+                                Platform.runLater(() -> {
+                                    CPUModelNameLabel.setText(cpuModel);
+                                    GPUModelNameLabel.setText(gpuModel);
+                                });
                             }
                         }
                     }
                 }
                 catch (Exception e)
                 {
-                    isConnected = false;
-                    Platform.runLater(()->switchPane(pane.notConnected));
                     isConnected = false;
                     Platform.runLater(()->switchPane(pane.notConnected));
                     try {
@@ -145,24 +129,10 @@ public class monitor extends monitorUI {
 
     String cpuModel, gpuModel;
 
-    int uniByteLen = 0;
     public String readFromIS()
     {
         try {
-            String bg = is.readUTF();
-            byte[] str = new byte[uniByteLen];
-            if(bg.startsWith("buff_length"))
-            {
-                uniByteLen = Integer.parseInt(bg.split("::")[1]);
-                System.out.println("GOT @ "+uniByteLen);
-                str = is.readNBytes(uniByteLen);
-            }
-
-            if(uniByteLen>0)
-            {
-                uniByteLen = 0;
-            }
-            return new String(str);
+            return is.readLine();
         }
         catch (Exception e)
         {
