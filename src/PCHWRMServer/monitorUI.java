@@ -89,7 +89,7 @@ public class monitorUI extends StackPane {
         CPUTempGauge.setValue(0);
         CPUTempGauge.setValueColor(Color.WHITE);
         CPUTempGauge.setUnitColor(Color.WHITE);
-        CPUTempGauge.setSections(new Section(0,65,Color.GREEN), new Section(65.01,75,Color.ORANGE), new Section(75.01,100,Color.RED));
+        CPUTempGauge.setSections(new Section(0,35,Color.BLUE), new Section(35.01,65,Color.GREEN), new Section(65.01,75,Color.ORANGE), new Section(75.01,100,Color.RED));
         CPUTempGauge.setUnit("°C");
         CPUTempGauge.setCache(true);
         CPUTempGauge.setCacheHint(CacheHint.SPEED);
@@ -133,7 +133,7 @@ public class monitorUI extends StackPane {
         GPUTempGauge.setValue(0);
         GPUTempGauge.setValueColor(Color.WHITE);
         GPUTempGauge.setUnitColor(Color.WHITE);
-        GPUTempGauge.setSections(new Section(0,65,Color.GREEN), new Section(65.01,75,Color.ORANGE), new Section(75.01,100,Color.RED));
+        GPUTempGauge.setSections(new Section(0,35,Color.BLUE), new Section(35.01,65,Color.GREEN), new Section(65.01,75,Color.ORANGE), new Section(75.01,100,Color.RED));
         GPUTempGauge.setUnit("°C");
         GPUTempGauge.setCache(true);
         GPUTempGauge.setCacheHint(CacheHint.SPEED);
@@ -166,7 +166,7 @@ public class monitorUI extends StackPane {
         memoryGauge.setValue(0);
         memoryGauge.setValueColor(Color.WHITE);
         memoryGauge.setUnitColor(Color.WHITE);
-        memoryGauge.setSections(new Section(0,65,Color.GREEN), new Section(65.01,75,Color.ORANGE), new Section(75.01,100,Color.RED));
+        memoryGauge.setSections(new Section(0,20,Color.BLUE),new Section(20.01,65,Color.GREEN), new Section(65.01,80,Color.ORANGE), new Section(80.01,100,Color.RED));
         memoryGauge.setUnit("%");
         memoryGauge.setCache(true);
         memoryGauge.setCacheHint(CacheHint.SPEED);
@@ -190,7 +190,7 @@ public class monitorUI extends StackPane {
         videoMemoryGauge.setValue(0);
         videoMemoryGauge.setValueColor(Color.WHITE);
         videoMemoryGauge.setUnitColor(Color.WHITE);
-        videoMemoryGauge.setSections(new Section(0,65,Color.GREEN), new Section(65.01,75,Color.ORANGE), new Section(75.01,100,Color.RED));
+        videoMemoryGauge.setSections(new Section(0,20,Color.BLUE), new Section(20.01,75,Color.GREEN), new Section(75.01,95,Color.ORANGE), new Section(95.01,100,Color.RED));
         videoMemoryGauge.setUnit("%");
         videoMemoryGauge.setCache(true);
         videoMemoryGauge.setCacheHint(CacheHint.SPEED);

@@ -19,6 +19,29 @@ public class io {
         return tbr;
     }
 
+    public void writeToFile(String content,String fileName)
+    {
+        try
+        {
+            File f = new File(fileName);
+            if(!f.exists())
+                if(!f.createNewFile()) throw new Exception("Insufficient Permissions to create "+fileName);
+            BufferedWriter bf = new BufferedWriter(new FileWriter(fileName));
+            bf.write(content);
+            bf.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public String readConsoleLine() throws Exception
+    {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        return bf.readLine();
+    }
+
     public String[] readFileArranged(String fileLocation, String sep) throws Exception
     {
         return readFileRaw(fileLocation).split(sep);

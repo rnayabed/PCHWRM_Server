@@ -99,29 +99,25 @@ public class monitor extends monitorUI {
                         {
                             String[] msg = xx.split("!!");
                             String msgHeader = msg[0];
-                            if(msgHeader.equals("QUIT"))
-                            {
-                                io.pln("Request to quit!");
-                                isConnected = false;
-                                socket.close();
-                                Platform.runLater(()->switchPane(pane.notConnected));
-                                System.out.println("A");
-                                startServer();
-                                break;
-                            }
-                            else if(msgHeader.equals("PC_DATA"))
-                            {
-                                dataReceived(msg[1]);
-                            }
-                            else if(msgHeader.equals("CPU_GPU_MODELS"))
-                            {
-                                String[] cc = msg[1].split("::");
-                                cpuModel = cc[0];
-                                gpuModel = cc[1];
-                                Platform.runLater(()->{
-                                    CPUModelNameLabel.setText(cpuModel);
-                                    GPUModelNameLabel.setText(gpuModel);
-                                });
+                            switch (msgHeader) {
+                                case "QUIT" -> {
+                                    io.pln("Request to quit!");
+                                    isConnected = false;
+                                    socket.close();
+                                    Platform.runLater(() -> switchPane(pane.notConnected));
+                                    System.out.println("A");
+                                    startServer();
+                                }
+                                case "PC_DATA" -> dataReceived(msg[1]);
+                                case "CPU_GPU_MODELS" -> {
+                                    String[] cc = msg[1].split("::");
+                                    cpuModel = cc[0];
+                                    gpuModel = cc[1];
+                                    Platform.runLater(() -> {
+                                        CPUModelNameLabel.setText(cpuModel);
+                                        GPUModelNameLabel.setText(gpuModel);
+                                    });
+                                }
                             }
                         }
                     }
@@ -186,56 +182,32 @@ public class monitor extends monitorUI {
         {
             String[] rawData = eachChunk.split("<>");
             String dataType = rawData[0];
-            if(dataType.equals("GPU_LOAD"))
-            {
-                Platform.runLater(()->GPULoadGauge.setValue(Double.parseDouble(rawData[1])));
-            }
-            else if(dataType.equals("CPU_LOAD"))
-            {
-                Platform.runLater(()->CPULoadGauge.setValue(Double.parseDouble(rawData[1])));
-            }
-            else if(dataType.equals("CPU_TEMP"))
-            {
-                Platform.runLater(()->CPUTempGauge.setValue(Double.parseDouble(rawData[1])));
-            }
-            else if(dataType.equals("GPU_TEMP"))
-            {
-                Platform.runLater(()->GPUTempGauge.setValue(Double.parseDouble(rawData[1])));
-            }
-            else if(dataType.equals("TOTAL_VRAM"))
-            {
-                totalVRAM = Double.parseDouble(rawData[1]);
-            }
-            else if(dataType.equals("USED_VRAM"))
-            {
-                usedVRAM = Double.parseDouble(rawData[1]);
-            }
-            else if(dataType.equals("FREE_RAM"))
-            {
-                freeRAM = Double.parseDouble(rawData[1]);
-            }
-            else if(dataType.equals("USED_RAM"))
-            {
-                usedRAM = Double.parseDouble(rawData[1]);
-            }
-            else if(dataType.equals("CPU_FAN"))
-            {
-                int cpuFANSpeed = (int) Double.parseDouble(rawData[1]);
-                Platform.runLater(()->CPUFanSpeedGauge.setValue(cpuFANSpeed));
-                if(cpuFANSpeed>cpuFANSpeedMaxValue)
-                {
-                    Platform.runLater(()->CPUFanSpeedGauge.setMaxValue(cpuFANSpeed));
-                    cpuFANSpeedMaxValue = cpuFANSpeed;
+            switch (dataType) {
+                case "GPU_LOAD" -> Platform.runLater(() -> GPULoadGauge.setValue(Double.parseDouble(rawData[1])));
+                case "CPU_LOAD" -> Platform.runLater(() -> CPULoadGauge.setValue(Double.parseDouble(rawData[1])));
+                case "CPU_TEMP" -> Platform.runLater(() -> CPUTempGauge.setValue(Double.parseDouble(rawData[1])));
+                case "GPU_TEMP" -> Platform.runLater(() -> GPUTempGauge.setValue(Double.parseDouble(rawData[1])));
+                case "TOTAL_VRAM" -> {
+                    if(totalVRAM==-1) totalVRAM = Math.ceil(Double.parseDouble(rawData[1]));
                 }
-            }
-            else if(dataType.equals("GPU_FAN"))
-            {
-                int gpuFANSpeed = (int) Double.parseDouble(rawData[1]);
-                Platform.runLater(()->GPUFanSpeedGauge.setValue(gpuFANSpeed));
-                if(gpuFANSpeed>gpuFANSpeedMaxValue)
-                {
-                    Platform.runLater(()->GPUFanSpeedGauge.setMaxValue(gpuFANSpeed));
-                    gpuFANSpeedMaxValue = gpuFANSpeed;
+                case "USED_VRAM" -> usedVRAM = Double.parseDouble(rawData[1]);
+                case "FREE_RAM" -> freeRAM = Double.parseDouble(rawData[1]);
+                case "USED_RAM" -> usedRAM = Double.parseDouble(rawData[1]);
+                case "CPU_FAN" -> {
+                    int cpuFANSpeed = (int) Double.parseDouble(rawData[1]);
+                    Platform.runLater(() -> CPUFanSpeedGauge.setValue(cpuFANSpeed));
+                    if (cpuFANSpeed > cpuFANSpeedMaxValue) {
+                        Platform.runLater(() -> CPUFanSpeedGauge.setMaxValue(cpuFANSpeed));
+                        cpuFANSpeedMaxValue = cpuFANSpeed;
+                    }
+                }
+                case "GPU_FAN" -> {
+                    int gpuFANSpeed = (int) Double.parseDouble(rawData[1]);
+                    Platform.runLater(() -> GPUFanSpeedGauge.setValue(gpuFANSpeed));
+                    if (gpuFANSpeed > gpuFANSpeedMaxValue) {
+                        Platform.runLater(() -> GPUFanSpeedGauge.setMaxValue(gpuFANSpeed));
+                        gpuFANSpeedMaxValue = gpuFANSpeed;
+                    }
                 }
             }
         }
